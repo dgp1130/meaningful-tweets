@@ -1,29 +1,111 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { CreateTweetComponent } from './create-tweet/create-tweet.component';
+import { Tweet } from './tweet';
+import { InMemoryTweetService } from './in-memory-tweet.service';
+import { TweetComponent } from './tweet/tweet.component';
+import { tweetServiceToken } from './tweet.service';
 
 describe('AppComponent', () => {
+  const tweetServiceSpy = jasmine.createSpyObj(
+    'TweetService',
+    Object.getOwnPropertyNames(InMemoryTweetService.prototype),
+  );
+
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        MatToolbarModule,
+        RouterTestingModule,
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        CreateTweetComponent,
+        TweetComponent,
       ],
+    }).overrideProvider(
+      tweetServiceToken,
+      { useValue: tweetServiceSpy },
+    ).overrideComponent(TweetComponent, {
+      set: { template: `` },
+    }).overrideComponent(CreateTweetComponent, {
+      set: { template: `` },
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should list initial tweets', async () => {
+    // Mock existing tweets from backend.
+    const fetchedTweets: Tweet[] = [
+      {
+        author: { handle: 'me' },
+        content: 'Hello!',
+      },
+      {
+        author: { handle: 'you' },
+        content: 'Howdy!',
+      },
+    ];
+    tweetServiceSpy.fetchTweets.and.resolveTo(fetchedTweets);
+
+    // Create the component.
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+
+    fixture.detectChanges(); // Run `ngOnInit()` and fetch tweets.
+    await fixture.whenStable(); // Wait for tweets to resolve.
+    fixture.detectChanges(); // Update UI.
+
+    const renderedTweets = fixture.debugElement.queryAll(
+      By.css('.tweet-list app-tweet'),
+    ).map((el) => (el.componentInstance as TweetComponent).tweet);
+    expect(renderedTweets).toEqual(fetchedTweets);
   });
 
-  it('should say hello', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should prepend newly-posted tweets', async () => {
+    // Mock existing tweets from backend.
+    const existingTweet: Tweet = {
+      author: { handle: 'me' },
+      content: 'Hello!',
+    };
+    tweetServiceSpy.fetchTweets.and.resolveTo([existingTweet]);
+
+    // Create the component.
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+
+    fixture.detectChanges(); // Run `ngOnInit()` and fetch tweets.
+    await fixture.whenStable(); // Wait for tweets to resolve.
+    fixture.detectChanges(); // Update UI.
+
+    // Post a new tweet.
+    const createTweetComponent = fixture.debugElement.query(
+      By.css('app-create-tweet'),
+    ).componentInstance as CreateTweetComponent;
+    const newTweet: Tweet = {
+      author: { handle: 'you' },
+      content: 'Howdy!',
+    };
+    createTweetComponent.tweet.emit(newTweet);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, World!');
+
+    // Assert new tweet is prepended to the list.
+    const tweets = fixture.debugElement.queryAll(By.css('.tweet-list app-tweet'))
+      .map((el) => (el.componentInstance as TweetComponent).tweet);
+    expect(tweets).toEqual([
+      {
+        author: { handle: 'you' },
+        content: 'Howdy!',
+      },
+      {
+        author: { handle: 'me' },
+        content: 'Hello!',
+      },
+    ]);
   });
 });

@@ -1,0 +1,18 @@
+<form>
+  <mat-form-field>
+    <mat-label>Author</mat-label>
+    <input matInput type="text" name="author" [(ngModel)]="author" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <input matInput type="text" name="content" [(ngModel)]="content" />
+  </mat-form-field>
+
+  <button type="submit"
+      mat-raised-button
+      color="primary"
+      (click)="createTweet()">
+    Tweet
+  </button>
+</form>

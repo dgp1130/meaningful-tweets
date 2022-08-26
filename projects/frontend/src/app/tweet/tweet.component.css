@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+
+mat-card {
+  display: flex;
+  flex-grow: auto 1fr;
+  gap: 5px;
+}
+
+img {
+  height: 4em;
+  vertical-align: top;
+}
+
+p {
+  margin-bottom: 6px;
+}

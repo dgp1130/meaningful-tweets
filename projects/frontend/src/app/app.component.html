@@ -1,1 +1,13 @@
-<h1>Hello, World!</h1>
+<mat-toolbar color="primary">
+  <span>MEAN-ingful Tweets</span>
+</mat-toolbar>
+
+<main>
+  <app-create-tweet (tweet)="postTweet($event)"></app-create-tweet>
+
+  <ul class="tweet-list">
+    <li *ngFor="let tweet of tweets">
+      <app-tweet [tweet]="tweet"></app-tweet>
+    </li>
+  </ul>
+</main>

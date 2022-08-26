@@ -1,0 +1,8 @@
+<mat-card>
+  <img [src]="tweet.author.avatar ?? 'https://fonts.gstatic.com/s/i/googlematerialicons/account_circle/v19/24px.svg'"
+      width="56px" height="56px" />
+  <div>
+    <p><a href="#" class="author">@{{ tweet.author.handle }}</a></p>
+    <p class="content">{{ tweet.content }}</p>
+  </div>
+</mat-card>

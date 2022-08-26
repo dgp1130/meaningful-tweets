@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+main {
+  max-width: max(50%, 350px);
+  margin: 10px auto 0 auto;
+}
+
+.tweet-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.tweet-list li {
+  margin-top: 10px;
+}
