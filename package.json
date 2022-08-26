@@ -3,14 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "dev:ssr": "ng run frontend:serve-ssr",
-    "serve:ssr": "node dist/frontend/server/main.js",
-    "build:ssr": "ng build && ng run frontend:server",
-    "prerender": "ng run frontend:prerender"
+    "start": "npm run -s",
+    "frontend:dev": "ng serve",
+    "frontend:dev-ssr": "ng run frontend:serve-ssr",
+    "frontend:prod": "npm run -s frontend:build && npm run -s frontend:serve",
+    "frontend:build": "ng build && ng run frontend:server",
+    "frontend:serve": "node dist/frontend/server/main.js",
+    "frontend:prerender": "ng run frontend:prerender",
+    "frontend:deploy": "gcloud run deploy frontend --source .",
+    "frontend:test": "ng test",
+    "test": "npm run -s frontend:test"
   },
   "private": true,
   "dependencies": {
@@ -29,22 +31,22 @@
     "express": "^4.15.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
-  },
-  "devDependencies": {
+    "zone.js": "~0.11.4",
     "@angular-devkit/build-angular": "^14.2.0",
     "@angular/cli": "~14.2.0",
     "@angular/compiler-cli": "^14.0.0",
     "@nguniversal/builders": "^14.1.0",
     "@types/express": "^4.17.0",
-    "@types/jasmine": "~4.0.0",
     "@types/node": "^14.15.0",
+    "typescript": "~4.7.2"
+  },
+  "devDependencies": {
+    "@types/jasmine": "~4.0.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.7.2"
+    "karma-jasmine-html-reporter": "~2.0.0"
   }
 }
