@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "files": [],
+  "include": ["src/**/*.spec.ts"],
+  "compilerOptions": {
+    "outDir": "../../dist/backend-test",
+    "types": ["jasmine"],
+  },
+}

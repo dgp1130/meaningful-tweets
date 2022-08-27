@@ -1,0 +1,9 @@
+{
+  "files": ["./src/server.ts"],
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // Override flags unique to backend server.
+    "outDir": "../../dist/backend/",                     /* Specify an output folder for all emitted files. */
+    "module": "CommonJS",                                /* Domino requires CommonJS. */
+  }
+}

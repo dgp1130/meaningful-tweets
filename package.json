@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run -s",
+
     "frontend:dev": "ng serve",
     "frontend:dev-ssr": "ng run frontend:serve-ssr",
     "frontend:prod": "npm run -s frontend:build && npm run -s frontend:serve",
@@ -11,15 +12,29 @@
     "frontend:serve": "node dist/frontend/server/main.js",
     "frontend:prerender": "ng run frontend:prerender",
     "frontend:deploy": "gcloud run deploy frontend --source .",
-    "frontend:test": "ng test",
-    "test": "npm run -s frontend:test"
+    "frontend:test": "ng test --watch false --browsers ChromeHeadless",
+    "frontend:test-dev": "ng test",
+
+    "backend:dev": "npm run -s backend:dev-build & npm run -s backend:dev-run",
+    "backend:dev-build": "tsc -p projects/backend/tsconfig.json --watch",
+    "backend:dev-run": "nodemon --watch dist/backend/ dist/backend/server.js",
+    "backend:prod": "npm run -s backend:build && node dist/backend/server.js",
+    "backend:build": "tsc -p projects/backend/tsconfig.json",
+    "backend:build-test": "tsc -p projects/backend/tsconfig.spec.json",
+    "backend:test": "npm run -s backend:build-test && jasmine --config=projects/backend/jasmine.json",
+    "backend:deploy": "gcloud run deploy backend --source .",
+
+    "test": "npm run frontend:test && npm run backend:test"
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^14.2.0",
     "@angular/animations": "^14.0.0",
     "@angular/cdk": "~14.2.0",
+    "@angular/cli": "~14.2.0",
     "@angular/common": "^14.0.0",
     "@angular/compiler": "^14.0.0",
+    "@angular/compiler-cli": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@angular/forms": "^14.0.0",
     "@angular/material": "~14.2.0",
@@ -27,26 +42,28 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/platform-server": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@nguniversal/builders": "^14.1.0",
     "@nguniversal/express-engine": "^14.1.0",
-    "express": "^4.15.2",
+    "@types/express": "^4.17.13",
+    "@types/node": "^14.18.26",
+    "@types/node-fetch": "^2.6.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "node-fetch": "^2.6.7",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4",
-    "@angular-devkit/build-angular": "^14.2.0",
-    "@angular/cli": "~14.2.0",
-    "@angular/compiler-cli": "^14.0.0",
-    "@nguniversal/builders": "^14.1.0",
-    "@types/express": "^4.17.0",
-    "@types/node": "^14.15.0",
-    "typescript": "~4.7.2"
+    "typescript": "~4.7.2",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@types/jasmine": "~4.0.0",
+    "jasmine": "^4.3.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0"
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "nodemon": "^2.0.19"
   }
 }
