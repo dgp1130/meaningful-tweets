@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Tweet } from '../tweet';
+import { Tweet } from '@meaningful-tweets/backend/src/tweet';
 
 /**
  * Displays a form for the user to author a new tweet and emits it from the

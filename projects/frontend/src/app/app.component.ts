@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Tweet } from './tweet';
+import { Tweet } from '@meaningful-tweets/backend/src/tweet';
 import { TweetService, tweetServiceToken } from './tweet.service';
 
 /** Root component for the entire application. */

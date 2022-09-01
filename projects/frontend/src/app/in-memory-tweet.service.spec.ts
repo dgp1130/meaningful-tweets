@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Tweet } from './tweet';
+import { Tweet } from '@meaningful-tweets/backend/src/tweet';
 import { InMemoryTweetService } from './in-memory-tweet.service';
 
 describe('InMemoryTweetService', () => {

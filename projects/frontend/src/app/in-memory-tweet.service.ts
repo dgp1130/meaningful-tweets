@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Tweet } from './tweet';
+import { Tweet } from '@meaningful-tweets/backend/src/tweet';
 import { TweetService } from './tweet.service';
 
 /** An in-memory implementation of the tweet service. */
