@@ -5,14 +5,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Tweet } from '@meaningful-tweets/backend/src/tweet';
 import { AppComponent } from './app.component';
 import { CreateTweetComponent } from './create-tweet/create-tweet.component';
-import { InMemoryTweetService } from './in-memory-tweet.service';
 import { TweetComponent } from './tweet/tweet.component';
 import { tweetServiceToken } from './tweet.service';
+import { TweetBackendService } from './tweet-backend.service';
 
 describe('AppComponent', () => {
   const tweetServiceSpy = jasmine.createSpyObj(
     'TweetService',
-    Object.getOwnPropertyNames(InMemoryTweetService.prototype),
+    Object.getOwnPropertyNames(TweetBackendService.prototype),
   );
 
   let component: AppComponent;

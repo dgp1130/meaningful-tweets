@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 import { TweetComponent } from './tweet/tweet.component';
 import { CreateTweetComponent } from './create-tweet/create-tweet.component';
 import { tweetServiceToken } from './tweet.service';
-import { InMemoryTweetService } from './in-memory-tweet.service';
+import { backendOriginToken } from './backend-origin';
+import { TweetBackendService } from './tweet-backend.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { InMemoryTweetService } from './in-memory-tweet.service';
     MatToolbarModule,
   ],
   providers: [
-    { provide: tweetServiceToken, useClass: InMemoryTweetService },
+    { provide: tweetServiceToken, useClass: TweetBackendService },
+    { provide: backendOriginToken, useValue: 'http://localhost:8000' },
   ],
   bootstrap: [AppComponent]
 })
