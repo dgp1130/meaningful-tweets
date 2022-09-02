@@ -16,6 +16,7 @@ import { CreateTweetComponent } from './create-tweet/create-tweet.component';
 import { tweetServiceToken } from './tweet.service';
 import { backendOriginToken } from './backend-origin';
 import { TweetBackendService } from './tweet-backend.service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { TweetBackendService } from './tweet-backend.service';
   ],
   providers: [
     { provide: tweetServiceToken, useClass: TweetBackendService },
-    { provide: backendOriginToken, useValue: 'http://localhost:8000' },
+    // Use the backend origin from the environment to pick between a localhost
+    // server during development or the real backend server in production.
+    { provide: backendOriginToken, useValue: environment.backendOrigin },
   ],
   bootstrap: [AppComponent]
 })
