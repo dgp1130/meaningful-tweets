@@ -17,12 +17,14 @@
 
     "backend:dev": "npm run -s backend:dev-build & npm run -s backend:dev-run",
     "backend:dev-build": "tsc -p projects/backend/tsconfig.json --watch",
-    "backend:dev-run": "nodemon --watch dist/backend/ dist/backend/server.js",
+    "backend:dev-run": "MONGO_DB_URI=\"mongodb://localhost?retryWrites=true&w=majority\" nodemon --watch dist/backend/ dist/backend/server.js",
     "backend:prod": "npm run -s backend:build && node dist/backend/server.js",
     "backend:build": "tsc -p projects/backend/tsconfig.json",
     "backend:build-test": "tsc -p projects/backend/tsconfig.spec.json",
     "backend:test": "npm run -s backend:build-test && jasmine --config=projects/backend/jasmine.json",
     "backend:deploy": "gcloud run deploy backend --source .",
+
+    "database:dev": "mongod",
 
     "test": "npm run frontend:test && npm run backend:test"
   },
@@ -49,6 +51,7 @@
     "@types/node-fetch": "^2.6.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "mongodb": "^4.9.1",
     "node-fetch": "^2.6.7",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
